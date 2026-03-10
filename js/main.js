@@ -4,6 +4,10 @@
 
 document.addEventListener('DOMContentLoaded', () => {
 
+  // ---------- EmailJS Initialization ----------
+  // Replace 'YOUR_PUBLIC_KEY' with your Public Key from https://dashboard.emailjs.com/account
+  emailjs.init({ publicKey: 'g2KFgtzQUkdIbkxOY' });
+
   // ---------- DOM References ----------
   const nav = document.querySelector('.nav');
   const navLinks = document.querySelectorAll('.nav-link');
@@ -226,32 +230,63 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.key === 'Escape') closeModal();
   });
 
-  // ---------- Contact Form ----------
+  // ---------- Contact Form (EmailJS) ----------
+  // Docs: https://www.emailjs.com/docs/sdk/send/
+  // Setup steps:
+  //   1. Sign up at https://emailjs.com
+  //   2. Create an Email Service and note your Service ID
+  //   3. Create an Email Template using variables: {{from_name}}, {{from_email}}, {{subject}}, {{message}}, {{to_email}}
+  //   4. Replace the placeholders below with your actual IDs
+
+  const EMAILJS_SERVICE_ID = 'service_gom2bgr';
+  const EMAILJS_TEMPLATE_ID = 'template_p8kiq58';
+
   const contactForm = document.getElementById('contact-form');
   if (contactForm) {
     contactForm.addEventListener('submit', (e) => {
       e.preventDefault();
 
-      const formData = new FormData(contactForm);
-      const data = Object.fromEntries(formData);
+      // Collect field values from form inputs
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const subject = document.getElementById('subject').value.trim();
+      const message = document.getElementById('message').value.trim();
 
-      // Simple validation
-      if (!data.name || !data.email || !data.message) {
+      // Basic validation
+      if (!name || !email || !message) {
         showFormMessage('Please fill in all required fields.', 'error');
         return;
       }
 
-      // Simulate submission
+      // Update button state to indicate sending
       const submitBtn = contactForm.querySelector('.form-submit');
       submitBtn.textContent = 'Sending...';
       submitBtn.disabled = true;
 
-      setTimeout(() => {
-        showFormMessage('Thank you! Your message has been sent successfully.', 'success');
-        contactForm.reset();
-        submitBtn.textContent = 'Send Message';
-        submitBtn.disabled = false;
-      }, 1500);
+      // Template parameters — these must match the variable names in your EmailJS template
+      const templateParams = {
+        name: name,
+        email: email,
+        title: subject || 'New Inquiry from Portfolio',
+        message: message
+      };
+
+      // Send email via EmailJS
+      emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams)
+        .then(() => {
+          // Success: show confirmation and reset the form
+          showFormMessage('Thank you! Your message has been sent successfully. We will get back to you soon.', 'success');
+          contactForm.reset();
+          submitBtn.textContent = 'Send Inquiry';
+          submitBtn.disabled = false;
+        })
+        .catch((error) => {
+          // Failure: log error to console and show friendly message to user
+          console.error('EmailJS error:', error);
+          showFormMessage('Oops! Something went wrong. Please try again or email us directly.', 'error');
+          submitBtn.textContent = 'Send Inquiry';
+          submitBtn.disabled = false;
+        });
     });
   }
 
@@ -320,3 +355,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
 });
+
+
+
