@@ -110,6 +110,33 @@ document.addEventListener('DOMContentLoaded', () => {
 
   reveals.forEach(el => revealObserver.observe(el));
 
+  // ---------- Section Visibility Toggles ----------
+  function setupSectionToggle(btnId, hiddenClass, expandText, collapseText) {
+    const btn = document.getElementById(btnId);
+    if (!btn) return;
+
+    btn.addEventListener('click', () => {
+      const hiddenElements = document.querySelectorAll(`.${hiddenClass}`);
+      const isExpanding = !btn.classList.contains('active');
+
+      hiddenElements.forEach(el => {
+        el.classList.toggle('active');
+        if (isExpanding) el.classList.add('revealed');
+      });
+
+      btn.classList.toggle('active');
+      btn.innerHTML = `
+        ${isExpanding ? collapseText : expandText}
+        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="6 9 12 15 18 9"></polyline>
+        </svg>
+      `;
+    });
+  }
+
+  setupSectionToggle('view-all-services', 'service-hidden', 'View All Services', 'Show Less');
+  setupSectionToggle('view-all-projects', 'case-hidden', 'View All Projects', 'Show Less');
+
   // ---------- Case Study Data ----------
   const caseStudies = {
     careerscloud: {
@@ -320,3 +347,81 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
 });
+
+// ============================================
+// ABOUT SECTION — Canvas Particle Network
+// ============================================
+(function initAboutCanvas() {
+  const canvas = document.getElementById('about-canvas');
+  if (!canvas) return;
+
+  const ctx = canvas.getContext('2d');
+  const section = canvas.closest('.about');
+
+  function resize() {
+    canvas.width = section.offsetWidth;
+    canvas.height = section.offsetHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  function getColor(alpha) {
+    return document.body.classList.contains('dark-mode')
+      ? `rgba(123,47,247,${alpha})`
+      : `rgba(67,97,238,${alpha})`;
+  }
+
+  const COUNT = 38;
+  const MAX_D = 140;
+
+  const pts = Array.from({ length: COUNT }, () => ({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    vx: (Math.random() - 0.5) * 0.55,
+    vy: (Math.random() - 0.5) * 0.55,
+    r: Math.random() * 2.2 + 1,
+    ph: Math.random() * Math.PI * 2
+  }));
+
+  let raf, tick = 0;
+
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    tick++;
+
+    pts.forEach((p, i) => {
+      p.x += p.vx;
+      p.y += p.vy;
+      if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+      if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+
+      const r = p.r + Math.sin(tick * 0.02 + p.ph) * 0.6;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, r, 0, Math.PI * 2);
+      ctx.fillStyle = getColor(0.45);
+      ctx.fill();
+
+      for (let j = i + 1; j < pts.length; j++) {
+        const q = pts[j];
+        const d = Math.hypot(p.x - q.x, p.y - q.y);
+        if (d < MAX_D) {
+          ctx.beginPath();
+          ctx.moveTo(p.x, p.y);
+          ctx.lineTo(q.x, q.y);
+          ctx.strokeStyle = getColor((1 - d / MAX_D) * 0.18);
+          ctx.lineWidth = 1;
+          ctx.stroke();
+        }
+      }
+    });
+
+    raf = requestAnimationFrame(draw);
+  }
+
+  const obs = new IntersectionObserver(entries => {
+    if (entries[0].isIntersecting) { if (!raf) draw(); }
+    else { cancelAnimationFrame(raf); raf = null; }
+  }, { threshold: 0.05 });
+
+  obs.observe(section);
+})();
