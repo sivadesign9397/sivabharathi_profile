@@ -448,7 +448,8 @@ button {
   align-items: center;
   background: var(--bg-hero);
   padding-top: var(--nav-height);
-  padding-bottom: 90px; /* space for brands-strip */
+  padding-bottom: 90px;
+  /* space for brands-strip */
   position: relative;
   overflow: hidden;
 }
@@ -570,18 +571,21 @@ button {
   max-width: 520px;
 }
 
-.main-visual-img {
+.hero-image-wrapper img {
   width: 100%;
-  height: auto;
   border-radius: var(--border-radius-xl);
-  filter: drop-shadow(0 20px 60px rgba(67, 97, 238, 0.15));
+  filter: drop-shadow(0 20px 60px rgba(67, 97, 238, 0.12));
+}
+
+.main-visual-img {
+  mix-blend-mode: multiply; /* Only for the dashboard to remove white background */
 }
 
 .hero-secondary-image {
   position: absolute;
-  width: 45%;
-  bottom: -5%;
-  right: -5%;
+  width: 44%;
+  bottom: -6%;
+  right: -8%;
   z-index: 2;
   animation: float-slow 6s ease-in-out infinite;
 }
@@ -589,7 +593,17 @@ button {
 .secondary-visual-img {
   width: 100%;
   height: auto;
-  filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.1));
+  filter: drop-shadow(0 15px 35px rgba(0, 0, 0, 0.08));
+  /* mix-blend-mode removed here as per user request */
+}
+
+@keyframes float-slow {
+  0%, 100% {
+    transform: translateY(0) rotate(1deg);
+  }
+  50% {
+    transform: translateY(-12px) rotate(-1deg);
+  }
 }
 
 .hero-float-card {
@@ -606,7 +620,6 @@ button {
   font-weight: 600;
   animation: float 4s ease-in-out infinite;
   backdrop-filter: blur(10px);
-  z-index: 3;
 }
 
 .hero-float-card.card-1 {
@@ -616,39 +629,9 @@ button {
 }
 
 .hero-float-card.card-2 {
-  bottom: 25%;
-  left: -10%;
+  bottom: 15%;
+  left: -5%;
   animation-delay: 1.5s;
-}
-
-@keyframes float-slow {
-  0%, 100% {
-    transform: translateY(0) rotate(2deg);
-  }
-  50% {
-    transform: translateY(-15px) rotate(-2deg);
-  }
-}
-
-@media (max-width: 991px) {
-  .hero-inner {
-    grid-template-columns: 1fr;
-    text-align: center;
-    gap: var(--space-xl);
-  }
-
-  .hero-content {
-    margin: 0 auto;
-  }
-
-  .hero-tags, .hero-ctas {
-    justify-content: center;
-  }
-
-  .hero-secondary-image {
-    width: 35%;
-    right: 0;
-  }
 }
 
 .float-icon {
@@ -683,7 +666,7 @@ button {
   padding: 14px 0 16px;
   overflow: hidden;
   z-index: 2;
-  border-top: 1px solid rgba(255,255,255,0.08);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .brands-strip-label {
@@ -692,7 +675,7 @@ button {
   font-weight: 600;
   letter-spacing: 2.5px;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.55);
+  color: rgba(255, 255, 255, 0.55);
   margin-bottom: 16px;
 }
 
@@ -725,7 +708,7 @@ button {
   letter-spacing: -0.3px;
   white-space: nowrap;
   transition: color 0.3s ease;
-  border-right: 1px solid rgba(255,255,255,0.12);
+  border-right: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 .brand-logo-item:hover {
@@ -744,8 +727,13 @@ button {
 }
 
 @keyframes brandsScroll {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
 }
 
 /* ============================================
@@ -1118,11 +1106,12 @@ button {
 .service-card {
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: var(--border-radius-lg);
-  padding: var(--space-lg);
-  transition: var(--transition);
+  border-radius: var(--border-radius-xl);
+  padding: 32px;
+  transition: var(--transition-slow);
   position: relative;
   overflow: hidden;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
 }
 
 .service-card::before {
@@ -1140,8 +1129,8 @@ button {
 
 .service-card:hover {
   border-color: var(--border-hover);
-  box-shadow: var(--shadow-md);
-  transform: translateY(-4px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  transform: translateY(-8px);
 }
 
 .service-card:hover::before {
@@ -1149,16 +1138,17 @@ button {
 }
 
 .service-icon {
-  width: 52px;
-  height: 52px;
-  border-radius: 14px;
+  width: 64px;
+  height: 64px;
+  border-radius: 18px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.4rem;
-  margin-bottom: var(--space-md);
-  background: var(--accent-light);
+  font-size: 1.8rem;
+  margin-bottom: 24px;
+  background: linear-gradient(135deg, var(--accent-light) 0%, rgba(67, 97, 238, 0.04) 100%);
   color: var(--accent);
+  border: 1px solid rgba(67, 97, 238, 0.1);
 }
 
 .service-card h3 {
@@ -1572,111 +1562,7 @@ button {
   color: var(--accent);
 }
 
-/* ============================================
-   EXPERIENCE TIMELINE
-   ============================================ */
-.experience {
-  background: var(--bg-secondary);
-}
 
-.timeline {
-  position: relative;
-  max-width: 800px;
-  margin: 0 auto;
-  padding-left: 40px;
-}
-
-.timeline::before {
-  content: '';
-  position: absolute;
-  left: 15px;
-  top: 0;
-  bottom: 0;
-  width: 2px;
-  background: var(--border);
-}
-
-.timeline-item {
-  position: relative;
-  margin-bottom: var(--space-xl);
-}
-
-.timeline-item:last-child {
-  margin-bottom: 0;
-}
-
-.timeline-dot {
-  position: absolute;
-  left: -33px;
-  top: 6px;
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  background: var(--accent);
-  border: 3px solid var(--bg-secondary);
-  box-shadow: 0 0 0 3px var(--accent-light);
-  z-index: 1;
-}
-
-.timeline-date {
-  font-size: var(--fs-xs);
-  font-weight: 600;
-  color: var(--accent);
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-bottom: 6px;
-}
-
-.timeline-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: var(--border-radius-lg);
-  padding: var(--space-lg);
-  transition: var(--transition);
-}
-
-.timeline-card:hover {
-  border-color: var(--border-hover);
-  box-shadow: var(--shadow-md);
-  transform: translateX(6px);
-}
-
-.timeline-card h3 {
-  font-size: var(--fs-h3);
-  font-weight: 700;
-  color: var(--text-primary);
-  margin-bottom: 4px;
-}
-
-.timeline-card .role {
-  font-size: var(--fs-small);
-  color: var(--accent);
-  font-weight: 600;
-  margin-bottom: var(--space-sm);
-}
-
-.timeline-achievements {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.timeline-achievement {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  font-size: var(--fs-small);
-  color: var(--text-secondary);
-  line-height: 1.6;
-}
-
-.timeline-achievement svg {
-  width: 16px;
-  height: 16px;
-  color: var(--accent);
-  flex-shrink: 0;
-  margin-top: 3px;
-}
 
 /* ============================================
    AWARDS
@@ -2218,9 +2104,62 @@ button {
   transform: translateY(0);
 }
 
-.reveal-delay-1 { transition-delay: 0.1s; }
-.reveal-delay-2 { transition-delay: 0.2s; }
-.reveal-delay-3 { transition-delay: 0.3s; }
-.reveal-delay-4 { transition-delay: 0.4s; }
-.reveal-delay-5 { transition-delay: 0.5s; }
-.reveal-delay-6 { transition-delay: 0.6s; }
+.reveal-delay-1 {
+  transition-delay: 0.1s;
+}
+
+.reveal-delay-2 {
+  transition-delay: 0.2s;
+}
+
+.reveal-delay-3 {
+  transition-delay: 0.3s;
+}
+
+.reveal-delay-4 {
+  transition-delay: 0.4s;
+}
+
+.reveal-delay-5 {
+  transition-delay: 0.5s;
+}
+
+.reveal-delay-6 {
+  transition-delay: 0.6s;
+}
+
+/* ---------- Reveal Animations ---------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s var(--ease), transform 0.8s var(--ease);
+}
+
+.reveal.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-delay-1 {
+  transition-delay: 0.1s;
+}
+
+.reveal-delay-2 {
+  transition-delay: 0.2s;
+}
+
+.reveal-delay-3 {
+  transition-delay: 0.3s;
+}
+
+.reveal-delay-4 {
+  transition-delay: 0.4s;
+}
+
+.reveal-delay-5 {
+  transition-delay: 0.5s;
+}
+
+.reveal-delay-6 {
+  transition-delay: 0.6s;
+}
