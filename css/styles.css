@@ -318,17 +318,15 @@ button {
 }
 
 .nav-logo {
-  font-size: 1.25rem;
-  font-weight: 800;
-  color: var(--text-primary);
-  letter-spacing: -0.5px;
+  display: flex;
+  align-items: center;
+  height: 100%;
 }
 
-.nav-logo span {
-  background: var(--accent-gradient);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+.logo-img {
+  height: 48px;
+  width: auto;
+  transition: var(--transition);
 }
 
 .nav-links {
@@ -578,7 +576,8 @@ button {
 }
 
 .main-visual-img {
-  mix-blend-mode: multiply; /* Only for the dashboard to remove white background */
+  mix-blend-mode: multiply;
+  /* Only for the dashboard to remove white background */
 }
 
 .hero-secondary-image {
@@ -598,9 +597,12 @@ button {
 }
 
 @keyframes float-slow {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(0) rotate(1deg);
   }
+
   50% {
     transform: translateY(-12px) rotate(-1deg);
   }
@@ -1840,6 +1842,13 @@ button {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: var(--space-lg);
+}
+
+.footer-logo-img {
+  height: 52px;
+  width: auto;
+  transition: var(--transition);
 }
 
 .footer-text {
