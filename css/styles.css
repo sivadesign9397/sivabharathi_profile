@@ -575,10 +575,7 @@ button {
   filter: drop-shadow(0 20px 60px rgba(67, 97, 238, 0.12));
 }
 
-.main-visual-img {
-  mix-blend-mode: multiply;
-  /* Only for the dashboard to remove white background */
-}
+/* Main visual image styles handled in hero-image-wrapper img */
 
 .hero-secondary-image {
   position: absolute;
@@ -664,11 +661,12 @@ button {
   bottom: 0;
   left: 0;
   right: 0;
-  background: linear-gradient(135deg, #4361EE 0%, #6D38E0 50%, #7B2FF7 100%);
+  background: #F9FAFB;
   padding: 14px 0 16px;
   overflow: hidden;
   z-index: 2;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
 }
 
 .brands-strip-label {
@@ -677,7 +675,7 @@ button {
   font-weight: 600;
   letter-spacing: 2.5px;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.55);
+  color: var(--text-tertiary);
   margin-bottom: 16px;
 }
 
@@ -704,17 +702,17 @@ button {
   align-items: center;
   gap: 10px;
   padding: 0 44px;
-  color: rgba(255, 255, 255, 0.82);
+  color: var(--text-secondary);
   font-size: 1.05rem;
   font-weight: 700;
   letter-spacing: -0.3px;
   white-space: nowrap;
   transition: color 0.3s ease;
-  border-right: 1px solid rgba(255, 255, 255, 0.12);
+  border-right: 1px solid var(--border);
 }
 
 .brand-logo-item:hover {
-  color: #ffffff;
+  color: var(--accent);
 }
 
 .brand-logo-item svg {
@@ -2166,6 +2164,14 @@ button {
 }
 
 .reveal-delay-5 {
+  transition-delay: 0.5s;
+}
+
+.reveal-delay-6 {
+  transition-delay: 0.6s;
+}
+
+reveal-delay-5 {
   transition-delay: 0.5s;
 }
 
