@@ -114,6 +114,33 @@ document.addEventListener('DOMContentLoaded', () => {
 
   reveals.forEach(el => revealObserver.observe(el));
 
+  // ---------- Section Visibility Toggles ----------
+  function setupSectionToggle(btnId, hiddenClass, expandText, collapseText) {
+    const btn = document.getElementById(btnId);
+    if (!btn) return;
+
+    btn.addEventListener('click', () => {
+      const hiddenElements = document.querySelectorAll(`.${hiddenClass}`);
+      const isExpanding = !btn.classList.contains('active');
+
+      hiddenElements.forEach(el => {
+        el.classList.toggle('active');
+        if (isExpanding) el.classList.add('revealed');
+      });
+
+      btn.classList.toggle('active');
+      btn.innerHTML = `
+        ${isExpanding ? collapseText : expandText}
+        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="6 9 12 15 18 9"></polyline>
+        </svg>
+      `;
+    });
+  }
+
+  setupSectionToggle('view-all-services', 'service-hidden', 'View All Services', 'Show Less');
+  setupSectionToggle('view-all-projects', 'case-hidden', 'View All Projects', 'Show Less');
+
   // ---------- Case Study Data ----------
   const caseStudies = {
     careerscloud: {
