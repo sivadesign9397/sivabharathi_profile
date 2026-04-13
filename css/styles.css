@@ -715,15 +715,21 @@ button {
   color: var(--accent);
 }
 
-.brand-logo-item svg {
+.brand-logo-item svg,
+.brand-logo-item img {
   flex-shrink: 0;
-  opacity: 0.88;
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  height: 40px;
+  width: auto;
+  opacity: 0.8;
+  transition: opacity 0.3s ease, transform 0.3s ease, filter 0.3s ease;
+  filter: grayscale(1);
 }
 
-.brand-logo-item:hover svg {
+.brand-logo-item:hover svg,
+.brand-logo-item:hover img {
   opacity: 1;
-  transform: scale(1.08);
+  transform: scale(1.03);
+  filter: grayscale(0);
 }
 
 @keyframes brandsScroll {
@@ -2016,16 +2022,35 @@ button {
 
   .hero {
     min-height: auto;
-    padding: calc(var(--nav-height) + var(--space-xl)) 0 var(--space-xl);
+    padding: calc(var(--nav-height) + var(--space-xl)) 0 0; /* Remove bottom padding to avoid extra gap with relative strip */
+    display: flex;
+    flex-direction: column;
+  }
+
+  .brands-strip {
+    position: relative;
+    bottom: auto;
+    margin-top: var(--space-xl);
+    border-bottom: none;
   }
 
   .hero-title {
-    font-size: clamp(1.5rem, 7vw, 2.5rem);
+    font-size: clamp(2rem, 8vw, 2.75rem);
+    margin-bottom: var(--space-md);
   }
 
   .hero-ctas {
     flex-direction: column;
-    align-items: center;
+    align-items: stretch; /* Make buttons full width on small screens */
+    width: 100%;
+    max-width: 320px;
+    margin: 0 auto;
+    gap: var(--space-sm);
+  }
+
+  .btn {
+    width: 100%; /* Full width for better touch targets on mobile */
+    padding: 16px 24px;
   }
 
   .services-grid {
