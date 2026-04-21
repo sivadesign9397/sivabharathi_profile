@@ -662,7 +662,7 @@ button {
   left: 0;
   right: 0;
   background: #F9FAFB;
-  padding: 14px 0 16px;
+  padding: 16px 0 18px;
   overflow: hidden;
   z-index: 2;
   border-top: 1px solid var(--border);
@@ -718,9 +718,9 @@ button {
 .brand-logo-item svg,
 .brand-logo-item img {
   flex-shrink: 0;
-  height: 40px;
+  height: 46px;
   width: auto;
-  opacity: 0.8;
+  opacity: 0.9;
   transition: opacity 0.3s ease, transform 0.3s ease, filter 0.3s ease;
   filter: grayscale(1);
 }
@@ -2032,6 +2032,11 @@ button {
     bottom: auto;
     margin-top: var(--space-xl);
     border-bottom: none;
+  }
+
+  .brand-logo-item svg,
+  .brand-logo-item img {
+    height: 40px;
   }
 
   .hero-title {
